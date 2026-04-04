@@ -59,6 +59,23 @@
             padding: 1rem;
             border-radius: 1rem;
         }
+        .buy-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #f5c542 0%, #d4a017 100%);
+            color: #0a0f1e;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 0.8rem 2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            margin: 0.5rem 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(245, 197, 66, 0.3);
+        }
+        .buy-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(245, 197, 66, 0.4);
+        }
         .contract {
             background: #0a0f16;
             padding: 0.75rem;
@@ -92,6 +109,25 @@
             color: #5a6e82;
             margin-top: 1rem;
         }
+        .how-to {
+            background: #0f1722;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+            text-align: left;
+        }
+        .how-to h3 {
+            margin-top: 0;
+            color: #f5c542;
+            text-align: center;
+        }
+        .how-to ol {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+        .how-to li {
+            margin: 0.5rem 0;
+        }
     </style>
 </head>
 <body>
@@ -101,30 +137,43 @@
         </div>
         <h1>FED POST-NUT</h1>
         <div class="symbol">$PNUT</div>
+
+        <!-- Buy button -->
+        <a href="https://ston.fi" class="buy-button" target="_blank">🛒 Buy $PNUT on STON.fi</a>
+
         <div class="description">
-            The Monetary Breakdown Memecoin.
-
-            A broken money printer, peanut shells, and post-nut clarity.
-
-            No promises, no roadmap, just chaos and honesty.
-
+            The Monetary Breakdown Memecoin.<br>
+            A broken money printer, peanut shells, and post-nut clarity.<br>
+            No promises, no roadmap — just chaos and honesty.<br>
             The printer goes BRRR — or does it?
         </div>
+
         <div class="contract">
-            📍 <strong>Jetton Master Address</strong><
+            📍 <strong>Jetton Master Address</strong><br>
             EQCj8Zy1y281Lpfintz-7lGF0D5Ui8_4zVHeLK04dEGl_uiu
         </div>
-        <hr>
-        <div class="social-links">
-            <!-- Замени ссылки на свои, когда появятся -->
-            <a href="#">🐦 Twitter (soon)</a>
-            <a href="#">💬 Telegram (soon)</a>
-            <a href="#">🛒 STON.fi (Add Liquidity)</a>
-        </div>
-        <footer>
-            ⚡ No promises, no roadmap. Just vibes and broken printers.
 
-         © FED POST-NUT
+        <div class="how-to">
+            <h3>📖 How to Buy $PNUT</h3>
+            <ol>
+                <li>Download <strong>Tonkeeper</strong> (or any TON wallet)</li>
+                <li>Fund your wallet with <strong>TON</strong></li>
+                <li>Go to <strong>STON.fi</strong> using the button above</li>
+                <li>Swap <strong>TON → $PNUT</strong></li>
+            </ol>
+        </div>
+
+        <hr>
+
+        <div class="social-links">
+            <a href="https://t.me/pnut_brrr" target="_blank">📢 Telegram Channel</a>
+            <a href="https://t.me/pnut_chat" target="_blank">💬 Telegram Chat</a>
+            <a href="#" target="_blank">🐦 Twitter (soon)</a>
+        </div>
+
+        <footer>
+            ⚡ No promises, no roadmap. Just vibes and broken printers.<br>
+            © FED POST-NUT
         </footer>
     </div>
 </body>
