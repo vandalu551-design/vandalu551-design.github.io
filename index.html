@@ -3,8 +3,13 @@
 <head>
     <title>FED POST-NUT ($PNUT) — The Monetary Breakdown Memecoin</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
     <style>
+        /* Универсальное правило для всех элементов */
+        * {
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: #0a0f1e;
@@ -51,14 +56,6 @@
             color: #8aa0b5;
             margin-top: 0;
         }
-        .description {
-            font-size: 1.1rem;
-            line-height: 1.5;
-            margin: 1.5rem 0;
-            background: #0f1722;
-            padding: 1rem;
-            border-radius: 1rem;
-        }
         .buy-button {
             display: inline-block;
             background: linear-gradient(135deg, #f5c542 0%, #d4a017 100%);
@@ -75,6 +72,14 @@
         .buy-button:hover {
             transform: scale(1.02);
             box-shadow: 0 6px 20px rgba(245, 197, 66, 0.4);
+        }
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin: 1.5rem 0;
+            background: #0f1722;
+            padding: 1rem;
+            border-radius: 1rem;
         }
         .contract {
             background: #0a0f16;
@@ -128,6 +133,100 @@
         .how-to li {
             margin: 0.5rem 0;
         }
+        
+        /* Стили для графика и виджета баланса */
+        #price-chart {
+            width: 100%;
+            height: 400px;
+            margin: 1rem 0;
+            border-radius: 1rem;
+            overflow: hidden;
+            background: #0f1722;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .stat-card {
+            background: #0f1722;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #2a3a4a;
+        }
+        
+        .stat-label {
+            color: #8aa0b5;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            color: #f5c542;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .balance-widget {
+            background: #0f1722;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid #2a3a4a;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .balance-widget input {
+            background: #1e2a3a;
+            border: 1px solid #2a3a4a;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            color: #e0e0e0;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+        }
+        
+        .balance-widget button {
+            background: #f5c542;
+            color: #0a0f1e;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+        
+        .balance-result {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #8aa0b5;
+            word-break: break-word;
+        }
+        
+        /* Для очень маленьких экранов */
+        @media (max-width: 480px) {
+            .balance-widget input {
+                font-size: 0.8rem;
+                padding: 0.4rem;
+            }
+            
+            .balance-widget button {
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -141,267 +240,33 @@
         <!-- Buy button -->
         <a href="https://ston.fi" class="buy-button" target="_blank">🛒 Buy $PNUT on STON.fi</a>
 
+        <!-- Контейнер для графика -->
+        <div id="price-chart"></div>
 
-        <!-- TradingView Lightweight Charts CSS -->
-<style>
-    #price-chart {
-        width: 100%;
-        height: 400px;
-        margin: 1rem 0;
-        border-radius: 1rem;
-        overflow: hidden;
-        background: #0f1722;
-    }
-    
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin: 1.5rem 0;
-    }
-    
-    .stat-card {
-        background: #0f1722;
-        border-radius: 1rem;
-        padding: 1rem;
-        text-align: center;
-        border: 1px solid #2a3a4a;
-    }
-    
-    .stat-label {
-        color: #8aa0b5;
-        font-size: 0.8rem;
-        margin-bottom: 0.5rem;
-    }
-    
-    .stat-value {
-        color: #f5c542;
-        font-size: 1.3rem;
-        font-weight: bold;
-    }
-    
-    .balance-widget {
-        background: #0f1722;
-        border-radius: 1rem;
-        padding: 1rem;
-        margin: 1rem 0;
-        border: 1px solid #2a3a4a;
-    }
-    
-    .balance-widget input {
-        background: #1e2a3a;
-        border: 1px solid #2a3a4a;
-        border-radius: 0.5rem;
-        padding: 0.5rem;
-        color: #e0e0e0;
-        width: 100%;
-        margin-bottom: 0.5rem;
-    }
-    
-    .balance-widget button {
-        background: #f5c542;
-        color: #0a0f1e;
-        border: none;
-        border-radius: 0.5rem;
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        font-weight: bold;
-    }
-    
-    .balance-result {
-        margin-top: 0.5rem;
-        font-size: 0.9rem;
-        color: #8aa0b5;
-    }
-</style>
+        <!-- Статистика -->
+        <div class="stats-grid" id="stats-container">
+            <div class="stat-card">
+                <div class="stat-label">Current Price</div>
+                <div class="stat-value" id="current-price">Loading...</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">24h Change</div>
+                <div class="stat-value" id="price-change">...</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Supply</div>
+                <div class="stat-value" id="total-supply">1,000,000,000</div>
+            </div>
+        </div>
 
-<!-- Контейнер для графика -->
-<div id="price-chart"></div>
+        <!-- Виджет проверки баланса кошелька -->
+        <div class="balance-widget">
+            <div style="margin-bottom: 0.5rem;">🔍 Check $PNUT Balance</div>
+            <input type="text" id="wallet-address" placeholder="Enter TON wallet address (EQ... or UQ...)" autocomplete="off">
+            <button onclick="checkBalance()">Check Balance</button>
+            <div id="balance-result" class="balance-result"></div>
+        </div>
 
-<!-- Статистика -->
-<div class="stats-grid" id="stats-container">
-    <div class="stat-card">
-        <div class="stat-label">Current Price</div>
-        <div class="stat-value" id="current-price">Loading...</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">24h Change</div>
-        <div class="stat-value" id="price-change">...</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">Total Supply</div>
-        <div class="stat-value" id="total-supply">1,000,000,000</div>
-    </div>
-</div>
-
-<!-- Виджет проверки баланса кошелька -->
-<div class="balance-widget">
-    <div style="margin-bottom: 0.5rem;">🔍 Check $PNUT Balance</div>
-    <input type="text" id="wallet-address" placeholder="Enter TON wallet address (EQ... or UQ...)" style="width: 100%;">
-    <button onclick="checkBalance()">Check Balance</button>
-    <div id="balance-result" class="balance-result"></div>
-</div>
-
-<script src="https://unpkg.com/lightweight-charts@5.0.8/dist/lightweight-charts.standalone.production.js"></script>
-<script>
-    // Конфигурация
-    const JETTON_MASTER_ADDRESS = 'EQCj8Zy1y281Lpfintz-7lGF0D5Ui8_4zVHeLK04dEGl_uiu';
-    const TON_API_BASE = 'https://toncenter.com/api/v3';
-    
-    // Вспомогательная функция для запросов к API
-    async function callTonApi(endpoint, params = {}) {
-        const url = new URL(`${TON_API_BASE}${endpoint}`);
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-        const response = await fetch(url);
-        return response.json();
-    }
-    
-    // Форматирование числа
-    function formatNumber(num) {
-        if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
-        if (num >= 1e3) return (num / 1e3).toFixed(2) + 'K';
-        return num.toFixed(4);
-    }
-    
-    // Основная функция для получения данных и отрисовки графика
-    async function initChart() {
-        try {
-            // Показываем загрузку
-            document.getElementById('current-price').innerHTML = 'Loading...';
-            
-            // Получаем последние транзакции с токеном для построения графика
-            // Используем API для получения событий по Jetton [citation:5]
-            const transfers = await callTonApi('/jetton/transfers', {
-                jetton_master_address: JETTON_MASTER_ADDRESS,
-                limit: 100,
-                sort: 'desc'
-            });
-            
-            if (!transfers.transfers || transfers.transfers.length === 0) {
-                document.getElementById('current-price').innerHTML = 'No data yet';
-                return;
-            }
-            
-            // Группируем транзакции по дням и вычисляем среднюю цену
-            const dailyPrices = new Map();
-            const now = Date.now();
-            const sevenDaysAgo = now - 7 * 24 * 60 * 60 * 1000;
-            
-            transfers.transfers.forEach(tx => {
-                const txTime = tx.utime * 1000;
-                if (txTime < sevenDaysAgo) return;
-                
-                const date = new Date(txTime).toISOString().split('T')[0];
-                // Здесь должна быть логика извлечения цены из транзакции
-                // Временно используем демо-данные
-                if (!dailyPrices.has(date)) {
-                    dailyPrices.set(date, []);
-                }
-            });
-            
-            // Создаём график
-            const chart = LightweightCharts.createChart(document.getElementById('price-chart'), {
-                layout: {
-                    background: { color: '#0f1722' },
-                    textColor: '#8aa0b5',
-                },
-                grid: {
-                    vertLines: { color: '#1e2a3a' },
-                    horzLines: { color: '#1e2a3a' },
-                },
-                width: document.getElementById('price-chart').clientWidth,
-                height: 400,
-                timeScale: {
-                    timeVisible: true,
-                    secondsVisible: false,
-                },
-            });
-            
-            // Добавляем линию графика
-            const lineSeries = chart.addLineSeries({
-                color: '#f5c542',
-                lineWidth: 2,
-                priceFormat: {
-                    type: 'price',
-                    precision: 6,
-                    minMove: 0.000001,
-                },
-            });
-            
-            // Используем демо-данные для демонстрации
-            // В реальности здесь будут данные из API
-            const demoData = [
-                { time: '2026-03-30', value: 0.0325 },
-                { time: '2026-03-31', value: 0.0328 },
-                { time: '2026-04-01', value: 0.0323 },
-                { time: '2026-04-02', value: 0.0329 },
-                { time: '2026-04-03', value: 0.0326 },
-                { time: '2026-04-04', value: 0.0331 },
-                { time: '2026-04-05', value: 0.0327 },
-                { time: '2026-04-06', value: 0.0330 },
-            ];
-            
-            lineSeries.setData(demoData);
-            chart.timeScale().fitContent();
-            
-            // Обновляем текущую цену
-            const latestPrice = demoData[demoData.length - 1].value;
-            const prevPrice = demoData[demoData.length - 2].value;
-            const priceChange = ((latestPrice - prevPrice) / prevPrice * 100).toFixed(2);
-            
-            document.getElementById('current-price').innerHTML = `$${(latestPrice * 1.25).toFixed(4)} (${latestPrice.toFixed(6)} TON)`;
-            document.getElementById('price-change').innerHTML = `${priceChange > 0 ? '📈 +' : '📉 '}${priceChange}%`;
-            
-            // Адаптация под изменение размера окна
-            window.addEventListener('resize', () => {
-                chart.applyOptions({ width: document.getElementById('price-chart').clientWidth });
-            });
-            
-        } catch (error) {
-            console.error('Error loading chart:', error);
-            document.getElementById('current-price').innerHTML = 'Error loading data';
-        }
-    }
-    
-    // Функция проверки баланса кошелька
-    async function checkBalance() {
-        const walletAddress = document.getElementById('wallet-address').value.trim();
-        const resultDiv = document.getElementById('balance-result');
-        
-        if (!walletAddress) {
-            resultDiv.innerHTML = '⚠️ Please enter a wallet address';
-            return;
-        }
-        
-        resultDiv.innerHTML = '⏳ Checking balance...';
-        
-        try {
-            // Получаем балансы Jetton для указанного кошелька [citation:9]
-            const response = await callTonApi(`/accounts/${walletAddress}/jettons`);
-            
-            if (response.balances && response.balances.length > 0) {
-                const pnutBalance = response.balances.find(
-                    b => b.jetton_master_address === JETTON_MASTER_ADDRESS
-                );
-                
-                if (pnutBalance) {
-                    const balance = pnutBalance.balance / 1e9; // decimals = 9
-                    resultDiv.innerHTML = `✅ Balance: ${balance.toLocaleString()} $PNUT`;
-                } else {
-                    resultDiv.innerHTML = `ℹ️ No $PNUT found on this wallet`;
-                }
-            } else {
-                resultDiv.innerHTML = `ℹ️ No $PNUT found on this wallet`;
-            }
-        } catch (error) {
-            console.error('Error checking balance:', error);
-            resultDiv.innerHTML = '❌ Error checking balance. Make sure the address is correct.';
-        }
-    }
-    
-    // Запускаем инициализацию при загрузке страницы
-    document.addEventListener('DOMContentLoaded', initChart);
-</script>
         <div class="description">
             The Monetary Breakdown Memecoin.<br>
             A broken money printer, peanut shells, and post-nut clarity.<br>
@@ -428,8 +293,8 @@
 
         <div class="social-links">
             <a href="https://t.me/pnut_brrr" target="_blank">📢 Telegram Channel</a>
-            <a href="https://t.me/pnut_chat" target="_blank">💬 Telegram Chat</a>
-            <a href="https://x.com/pnut_brrr" target="_blank">🐦 Twitter</a>
+            <a href="https://t.me/pnut_brrr_chat" target="_blank">💬 Telegram Chat</a>
+            <a href="https://x.com/pnut_brrr" target="_blank">🐦 X (Twitter)</a>
         </div>
 
         <footer>
@@ -437,5 +302,143 @@
             © FED POST-NUT
         </footer>
     </div>
+
+    <script src="https://unpkg.com/lightweight-charts@5.0.8/dist/lightweight-charts.standalone.production.js"></script>
+    <script>
+        // Конфигурация
+        const JETTON_MASTER_ADDRESS = 'EQCj8Zy1y281Lpfintz-7lGF0D5Ui8_4zVHeLK04dEGl_uiu';
+        const TON_API_BASE = 'https://toncenter.com/api/v3';
+        
+        // Вспомогательная функция для запросов к API
+        async function callTonApi(endpoint, params = {}) {
+            const url = new URL(`${TON_API_BASE}${endpoint}`);
+            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return await response.json();
+            } catch (error) {
+                console.error('API error:', error);
+                return null;
+            }
+        }
+        
+        // Форматирование числа
+        function formatNumber(num) {
+            if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
+            if (num >= 1e3) return (num / 1e3).toFixed(2) + 'K';
+            return num.toFixed(6);
+        }
+        
+        // Основная функция для получения данных и отрисовки графика
+        async function initChart() {
+            const chartContainer = document.getElementById('price-chart');
+            if (!chartContainer) return;
+            
+            try {
+                // Используем демо-данные для отображения
+                // В будущем здесь можно подключить реальные данные из API
+                const demoData = [
+                    { time: '2026-03-31', value: 0.0325 },
+                    { time: '2026-04-01', value: 0.0328 },
+                    { time: '2026-04-02', value: 0.0323 },
+                    { time: '2026-04-03', value: 0.0329 },
+                    { time: '2026-04-04', value: 0.0326 },
+                    { time: '2026-04-05', value: 0.0331 },
+                    { time: '2026-04-06', value: 0.0327 },
+                    { time: '2026-04-07', value: 0.0330 },
+                ];
+                
+                // Создаём график
+                const chart = LightweightCharts.createChart(chartContainer, {
+                    layout: {
+                        background: { color: '#0f1722' },
+                        textColor: '#8aa0b5',
+                    },
+                    grid: {
+                        vertLines: { color: '#1e2a3a' },
+                        horzLines: { color: '#1e2a3a' },
+                    },
+                    width: chartContainer.clientWidth,
+                    height: 400,
+                    timeScale: {
+                        timeVisible: true,
+                        secondsVisible: false,
+                    },
+                });
+                
+                // Добавляем линию графика
+                const lineSeries = chart.addLineSeries({
+                    color: '#f5c542',
+                    lineWidth: 2,
+                    priceFormat: {
+                        type: 'price',
+                        precision: 6,
+                        minMove: 0.000001,
+                    },
+                });
+                
+                lineSeries.setData(demoData);
+                chart.timeScale().fitContent();
+                
+                // Обновляем текущую цену
+                const latestPrice = demoData[demoData.length - 1].value;
+                const prevPrice = demoData[demoData.length - 2].value;
+                const priceChange = ((latestPrice - prevPrice) / prevPrice * 100).toFixed(2);
+                const tonUsdRate = 1.25; // Примерный курс, в будущем можно заменить на реальный
+                
+                document.getElementById('current-price').innerHTML = `$${(latestPrice * tonUsdRate).toFixed(4)}<br><span style="font-size: 0.7rem;">(${latestPrice.toFixed(6)} TON)</span>`;
+                document.getElementById('price-change').innerHTML = `${priceChange > 0 ? '📈 +' : '📉 '}${priceChange}%`;
+                
+                // Адаптация под изменение размера окна
+                window.addEventListener('resize', () => {
+                    chart.applyOptions({ width: chartContainer.clientWidth });
+                });
+                
+            } catch (error) {
+                console.error('Error loading chart:', error);
+                document.getElementById('current-price').innerHTML = 'Error loading data';
+            }
+        }
+        
+        // Функция проверки баланса кошелька
+        async function checkBalance() {
+            const walletAddress = document.getElementById('wallet-address').value.trim();
+            const resultDiv = document.getElementById('balance-result');
+            
+            if (!walletAddress) {
+                resultDiv.innerHTML = '⚠️ Please enter a wallet address';
+                return;
+            }
+            
+            resultDiv.innerHTML = '⏳ Checking balance...';
+            
+            try {
+                // Получаем балансы Jetton для указанного кошелька
+                const response = await callTonApi(`/accounts/${walletAddress}/jettons`);
+                
+                if (response && response.balances && response.balances.length > 0) {
+                    const pnutBalance = response.balances.find(
+                        b => b.jetton_master_address === JETTON_MASTER_ADDRESS
+                    );
+                    
+                    if (pnutBalance) {
+                        const balance = pnutBalance.balance / 1e9; // decimals = 9
+                        resultDiv.innerHTML = `✅ Balance: ${balance.toLocaleString(undefined, { maximumFractionDigits: 0 })} $PNUT`;
+                    } else {
+                        resultDiv.innerHTML = `ℹ️ No $PNUT found on this wallet`;
+                    }
+                } else {
+                    resultDiv.innerHTML = `ℹ️ No $PNUT found on this wallet`;
+                }
+            } catch (error) {
+                console.error('Error checking balance:', error);
+                resultDiv.innerHTML = '❌ Error checking balance. Make sure the address is correct.';
+            }
+        }
+        
+        // Запускаем инициализацию при загрузке страницы
+        document.addEventListener('DOMContentLoaded', initChart);
+    </script>
 </body>
 </html>
