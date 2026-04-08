@@ -227,6 +227,35 @@
                 gap: 0.75rem;
             }
         }
+        /* Кнопка игры */
+.game-button {
+    display: block;
+    background: linear-gradient(135deg, #1e2a3a 0%, #0f1722 100%);
+    border: 2px solid #f5c542;
+    color: #f5c542;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    transition: all 0.2s;
+}
+
+.game-button:hover {
+    transform: scale(1.01);
+    background: linear-gradient(135deg, #2a3a4a 0%, #1e2a3a 100%);
+    box-shadow: 0 0 15px rgba(245, 197, 66, 0.3);
+}
+
+.game-button-small {
+    display: block;
+    font-size: 0.7rem;
+    color: #8aa0b5;
+    margin-top: 0.3rem;
+    font-weight: normal;
+}
     </style>
 </head>
 <body>
@@ -239,6 +268,12 @@
 
         <!-- Buy button -->
         <a href="https://ston.fi" class="buy-button" target="_blank">🛒 Buy $PNUT on STON.fi</a>
+
+        <!-- Кнопка перехода в игру-кликер -->
+<a href="https://t.me/pnut_clicker_bot/pnut" target="_blank" class="game-button">
+    🎮 Play PNUT Clicker
+    <span class="game-button-small">Fix the printer, earn $PNUT</span>
+</a>
 
         <!-- Контейнер для графика -->
         <div id="price-chart"></div>
